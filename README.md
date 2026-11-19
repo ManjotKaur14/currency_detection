@@ -1,124 +1,141 @@
-# 💰 Currency Detection System
+# AI-Powered Currency Detection and Authenticity Verification System
 
-<div align="center">
+An intelligent currency detection and authenticity verification system that uses **Computer Vision, Image Processing, and Machine Learning techniques** to identify currency denominations and analyze their authenticity.
 
-![Currency Detection](https://img.shields.io/badge/AI-Currency%20Detection-blue?style=for-the-badge&logo=python)
-![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
-![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+The system processes currency images using advanced feature extraction, image matching, and Optical Character Recognition (OCR) to generate reliable detection results.
 
-**An AI-powered currency authenticity detection system using advanced computer vision and machine learning techniques.**
-
-[🚀 Quick Start](#-quick-start) • [📖 Documentation](#-api-documentation) • [🐳 Docker](#-docker-deployment) • [🔧 Configuration](#-configuration)
-
-</div>
+**Technology Stack:** Python | FastAPI | OpenCV | Tesseract OCR | Docker
 
 ---
 
-## 🌟 Features
+## 1. Project Overview
 
-<table>
-<tr>
-<td width="50%">
+The AI-Powered Currency Detection System is designed to automate the process of identifying and verifying currency notes through image analysis.
 
-### 🧠 **AI-Powered Analysis**
-- **Multi-Algorithm Feature Matching** (ORB + SIFT)
-- **OCR Verification** with Tesseract
-- **Multi-Orientation Support** (0°, 90°, 180°, 270°)
-- **Image Quality Assessment**
-- **Confidence Scoring System**
+Users can upload currency images through a web interface or API. The system analyzes the uploaded image, extracts relevant visual features, performs OCR verification, and generates an authenticity assessment along with the detected denomination and country.
 
-</td>
-<td width="50%">
+The system also supports multiple image orientations and evaluates image quality to improve the reliability of the analysis.
 
-### 🌐 **Easy Integration**
-- **Beautiful Web Interface**
-- **RESTful API Endpoints**
-- **Real-time Processing**
-- **Docker Support**
-- **ESP32-CAM Compatible**
+## 2. Key Features
 
-</td>
-</tr>
-</table>
+### AI-Based Image Analysis
+- ORB and SIFT-based feature extraction and matching.
+- OCR-based verification using Tesseract.
+- Multi-orientation image processing (0°, 90°, 180°, 270°).
+- Image quality and sharpness assessment.
+- Confidence-based authenticity scoring.
 
-## 💱 Supported Currencies
+### User-Friendly Integration
+- Interactive web interface.
+- RESTful API endpoints.
+- Real-time image processing.
+- Docker-based deployment.
+- ESP32-CAM integration for IoT applications.
 
-| Currency | Denominations | Status |
-|----------|---------------|--------|
-| 🇮🇳 **INR** (Indian Rupees) | 10, 20, 50, 100, 200, 500, 2000 | ✅ Full Support |
-| 🇺🇸 **USD** (US Dollars) | 1, 5, 10, 20, 50, 100 | ✅ Full Support |
-| 🇪🇺 **EUR** (Euro) | 5, 10, 20, 50, 100, 200, 500 | ✅ Full Support |
-| 🇬🇧 **GBP** (British Pounds) | 5, 10, 20, 50 | ✅ Full Support |
+## 3. Supported Currencies
 
-## 🚀 Quick Start
+| Currency | Supported Denominations |
+|---|---|
+| INR – Indian Rupee | ₹10, ₹20, ₹50, ₹100, ₹200, ₹500, ₹2000 |
+| USD – US Dollar | $1, $5, $10, $20, $50, $100 |
+| EUR – Euro | €5, €10, €20, €50, €100, €200, €500 |
+| GBP – British Pound | £5, £10, £20, £50 |
 
-### Option 1: Docker (Recommended)
+## 4. System Architecture and Workflow
+
+The system follows a structured image-processing pipeline:
+
+1. **Image Input:** The user uploads a currency image.
+2. **Image Quality Assessment:** The system checks image sharpness and contrast.
+3. **Image Enhancement:** The image is prepared for accurate processing.
+4. **Orientation Handling:** Multiple image orientations are evaluated.
+5. **Feature Extraction:** ORB and SIFT algorithms identify important visual features.
+6. **Feature Matching:** Extracted features are compared with reference currency images.
+7. **OCR Verification:** Tesseract OCR extracts and verifies relevant textual information.
+8. **Confidence Scoring:** A confidence score is calculated from the analysis.
+9. **Authenticity Decision:** The system generates an authenticity assessment.
+10. **Result Generation:** The detected denomination, country, and authenticity status are returned.
+
+## 5. Installation and Setup
+
+### Option 1: Docker Deployment
+
+Docker provides a convenient way to build and run the application in a containerized environment.
 
 ```bash
-# Clone the repository
 git clone https://github.com/yourusername/currency-detection-system.git
+
 cd currency-detection-system
 
-# Build and run with Docker
 docker build -t currency-detection .
-docker run -d -p 3000:3000 --name currency-app currency-detection
 
-# Access the application
-open http://localhost:3000
+docker run -d -p 3000:3000 --name currency-app currency-detection
+```
+
+Access the application:
+
+```text
+http://localhost:3000
 ```
 
 ### Option 2: Local Installation
 
+**Step 1: Clone the repository**
+
 ```bash
-# Clone and setup
 git clone https://github.com/yourusername/currency-detection-system.git
+
 cd currency-detection-system
+```
 
-# Create virtual environment
+**Step 2: Create a virtual environment**
+
+```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-# Install dependencies
+Activate the environment:
+
+```bash
+# Windows
+venv\Scripts\activate
+
+# Linux/macOS
+source venv/bin/activate
+```
+
+**Step 3: Install dependencies**
+
+```bash
 pip install -r requirements.txt
+```
 
-# Start the server
+**Step 4: Start the application**
+
+```bash
 python main.py
 ```
 
-## 🏗️ System Architecture
+## 6. API Documentation
 
-```mermaid
-graph TD
-    A[Image Input] --> B[Quality Assessment]
-    B --> C{Quality Check}
-    C -->|Pass| D[Image Enhancement]
-    C -->|Fail| E[Reject - Too Blurry]
-    D --> F[Multi-Orientation Processing]
-    F --> G[Feature Extraction ORB + SIFT]
-    G --> H[Feature Matching]
-    H --> I[OCR Verification]
-    I --> J[Confidence Scoring]
-    J --> K[Authenticity Decision]
-    K --> L[Result Output]
-```
+The application provides RESTful endpoints for image analysis, file uploads, and application health monitoring.
 
-## 📖 API Documentation
+### 6.1 Web Interface
 
-### 🌐 Web Interface
-```
-GET /
-```
-Interactive web interface for testing and analysis.
+**Endpoint:** `GET /`
 
-### 🔍 Analyze Image
+Provides an interactive web interface for uploading currency images and viewing analysis results.
+
+### 6.2 Currency Image Analysis
+
+**Endpoint:** `POST /analyze`
+
+Accepts an image and performs currency detection and authenticity analysis.
+
+**Request:**
 ```http
 POST /analyze
 Content-Type: multipart/form-data
-
-{
-  "image": <file>
-}
 ```
 
 **Response:**
@@ -130,15 +147,11 @@ Content-Type: multipart/form-data
 }
 ```
 
-### 💾 Upload & Analyze
-```http
-POST /upload
-Content-Type: multipart/form-data
+### 6.3 Upload and Analyze
 
-{
-  "image": <file>
-}
-```
+**Endpoint:** `POST /upload`
+
+Uploads a currency image, stores the file, and performs the analysis.
 
 **Response:**
 ```json
@@ -155,10 +168,11 @@ Content-Type: multipart/form-data
 }
 ```
 
-### 🏥 Health Check
-```http
-GET /health
-```
+### 6.4 Application Health Check
+
+**Endpoint:** `GET /health`
+
+Checks the application's operational status and reference image availability.
 
 **Response:**
 ```json
@@ -169,13 +183,15 @@ GET /health
 }
 ```
 
-## 🐳 Docker Deployment
+## 7. Docker Deployment
 
-### Using Docker Compose
+The application supports Docker Compose for simplified container management.
+
+**Example docker-compose.yml**
 
 ```yaml
-# docker-compose.yml
 version: '3.8'
+
 services:
   currency-detection:
     build: .
@@ -187,146 +203,144 @@ services:
     restart: unless-stopped
 ```
 
+Start the application:
+
 ```bash
 docker-compose up -d
 ```
 
-### Manual Docker Commands
+Additional Docker commands:
 
 ```bash
-# Build image
 docker build -t currency-detection .
 
-# Run container
-docker run -d \
-  -p 3000:3000 \
-  -v $(pwd)/uploads:/app/uploads \
-  -v $(pwd)/reference_notes:/app/reference_notes:ro \
-  --name currency-app \
-  currency-detection
-
-# View logs
 docker logs currency-app -f
 
-# Stop container
 docker stop currency-app
 ```
 
-## 📱 ESP32-CAM Integration
+## 8. ESP32-CAM Integration
 
-Perfect for IoT currency detection projects:
+The system supports integration with ESP32-CAM, enabling image capture through an IoT camera module.
 
-```cpp
-#include <WiFi.h>
-#include <HTTPClient.h>
-#include "esp_camera.h"
+Captured currency images can be transmitted to the FastAPI backend for analysis through HTTP requests.
 
-const char* serverURL = "http://192.168.1.100:3000/analyze";
+This integration allows the system to be extended into a camera-based currency detection application.
 
-void analyzeCurrency() {
-  camera_fb_t * fb = esp_camera_fb_get();
-  
-  HTTPClient http;
-  http.begin(serverURL);
-  http.addHeader("Content-Type", "multipart/form-data");
-  
-  // Send image for analysis
-  int httpResponseCode = http.POST(fb->buf, fb->len);
-  
-  if (httpResponseCode == 200) {
-    String response = http.getString();
-    Serial.println("Analysis: " + response);
-  }
-  
-  esp_camera_fb_return(fb);
-  http.end();
-}
-```
+## 9. Configuration and Optimization
 
-## 🔧 Configuration
+The system provides configurable parameters to control image quality assessment, feature extraction, and authenticity verification.
 
-### Image Quality Thresholds
+### Image Quality Parameters
 
 ```python
-# In assets/image_analysis.py
-MIN_SHARPNESS = 50          # Minimum image sharpness
-MIN_CONTRAST = 40           # Minimum image contrast
-MIN_MATCH_COUNT = 15        # Minimum feature matches
-CONFIDENCE_THRESHOLD = 0.20 # Minimum confidence score
+MIN_SHARPNESS = 50
+MIN_CONTRAST = 40
+MIN_MATCH_COUNT = 15
+CONFIDENCE_THRESHOLD = 0.20
 ```
 
-### Performance Tuning
+### Feature Detection Parameters
 
 ```python
-# Feature Detection Parameters
-ORB_FEATURES = 3000         # ORB keypoints (reduce for speed)
-SIFT_FEATURES = 2000        # SIFT keypoints (reduce for speed)
-ORIENTATIONS = 4            # Number of orientations to test
+ORB_FEATURES = 3000
+SIFT_FEATURES = 2000
+ORIENTATIONS = 4
 ```
 
-## 📊 Performance Metrics
+These parameters can be adjusted according to image quality and processing requirements.
 
-| Metric | Value | Notes |
-|--------|-------|-------|
-| **Processing Time** | 1-3 seconds | Per image analysis |
-| **Accuracy** | 95%+ | With good quality images |
-| **Supported Formats** | JPG, PNG, WEBP | Standard image formats |
-| **Max File Size** | 10MB | Configurable limit |
-| **Memory Usage** | 100-200MB | During processing |
-| **Reference Images** | 151 loaded | Multiple variants per currency |
+## 10. Performance Metrics
 
-## 🛠️ Development
+| Metric | Performance |
+|---|---|
+| Processing Time | 1–3 seconds per image |
+| Accuracy | 95%+ with good-quality images |
+| Supported Formats | JPG, PNG, WEBP |
+| Maximum File Size | 10 MB |
+| Memory Usage | 100–200 MB |
+| Reference Images | 151 loaded |
 
-### Project Structure
+*Performance values are based on the project's documented configuration.*
 
-```
+## 11. Project Structure
+
+```text
 currency-detection-system/
-├── 📄 main.py                    # FastAPI application
-├── 📄 requirements.txt           # Python dependencies
-├── 📄 Dockerfile                # Docker configuration
-├── 📄 docker-compose.yml        # Docker Compose setup
-├── 📁 assets/
-│   └── 📄 image_analysis.py      # Core AI algorithms
-├── 📁 reference_notes/           # Currency reference images
-│   ├── 📁 INR/
-│   │   ├── 📁 10/
-│   │   ├── 📁 20/
-│   │   └── 📁 ...
-│   ├── 📁 USD/
-│   └── 📁 EUR/
-├── 📁 uploads/                   # Uploaded images (auto-created)
-├── 📁 static/                    # Static web files (auto-created)
-└── 📄 README.md                  # This file
+│
+├── main.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+│
+├── assets/
+│   └── image_analysis.py
+│
+├── reference_notes/
+│   ├── INR/
+│   │   ├── 10/
+│   │   ├── 20/
+│   │   ├── 50/
+│   │   └── ...
+│   ├── USD/
+│   └── EUR/
+│
+├── uploads/
+├── static/
+│
+└── README.md
 ```
 
-### Adding New Currencies
+### Directory Description
 
-1. Create currency folder in `reference_notes/`
-2. Add denomination subfolders
-3. Include multiple reference images per denomination
-4. Update `CURRENCY_DENOMINATIONS` in `image_analysis.py`
-5. Add ROI coordinates in `NOTE_ROIS`
+- **main.py:** Main FastAPI application.
+- **requirements.txt:** Python dependencies.
+- **assets/image_analysis.py:** Core image-processing and feature-matching algorithms.
+- **reference_notes/:** Reference images organized by currency and denomination.
+- **uploads/:** Stores uploaded currency images.
+- **static/:** Contains static web interface resources.
+- **Dockerfile:** Defines the container build configuration.
 
-### Running Tests
+## 12. Adding New Currencies
+
+The system can be extended to support additional currencies.
+
+Steps:
+
+1. Create a new currency directory inside `reference_notes/`.
+2. Create separate subdirectories for each denomination.
+3. Add multiple reference images for every denomination.
+4. Update `CURRENCY_DENOMINATIONS` in `image_analysis.py`.
+5. Configure the corresponding ROI coordinates in `NOTE_ROIS`.
+
+## 13. Testing
+
+The project supports automated testing using Pytest.
+
+Install testing dependencies:
 
 ```bash
-# Install test dependencies
 pip install pytest pytest-asyncio httpx
+```
 
-# Run tests
+Run tests:
+
+```bash
 pytest tests/
+```
 
-# Run with coverage
+Run tests with coverage:
+
+```bash
 pytest --cov=assets tests/
 ```
 
-## 🔍 Troubleshooting
+## 14. Troubleshooting
 
-<details>
-<summary><strong>🚨 Common Issues & Solutions</strong></summary>
+### Tesseract OCR Not Found
 
-### Issue: "Tesseract not found"
-**Solution:**
+Install Tesseract OCR according to your operating system.
+
 ```bash
 # Windows
 choco install tesseract
@@ -338,109 +352,55 @@ brew install tesseract
 sudo apt-get install tesseract-ocr tesseract-ocr-eng
 ```
 
-### Issue: "Image too blurry for reliable analysis"
-**Solutions:**
-- Improve lighting conditions
-- Ensure camera is in focus
-- Clean camera lens
-- Reduce camera shake
-- Move closer to currency note
+### Poor Image Quality
 
-### Issue: "No reference features loaded"
-**Solutions:**
-- Check `reference_notes/` directory exists
-- Verify image formats (JPG, PNG, WEBP)
-- Ensure proper folder structure
-- Check file permissions
+- Ensure sufficient lighting.
+- Keep the currency note in focus.
+- Avoid camera movement.
+- Clean the camera lens.
+- Capture the note from a suitable distance.
 
-### Issue: Port 3000 already in use
-**Solution:**
+### Reference Images Not Loading
+
+- Verify that the `reference_notes/` directory exists.
+- Check the supported image formats.
+- Maintain the required directory structure.
+- Verify file permissions.
+
+### Port Already in Use
+
+Check whether another process is using port 3000.
+
 ```bash
-# Find process using port 3000
-lsof -i :3000  # macOS/Linux
-netstat -ano | findstr :3000  # Windows
-
-# Kill the process or use different port
-docker run -p 8080:3000 currency-detection
+netstat -ano | findstr :3000
 ```
 
-</details>
+Alternatively, use another available port.
 
-## 🌐 Network Access
+## 15. Future Scope
 
-### Local Network Access
+Potential improvements and extensions include:
 
-1. Find your IP address:
-```bash
-ipconfig  # Windows
-ifconfig  # macOS/Linux
-```
+- Support for additional international currencies.
+- Improved image classification and authenticity verification.
+- Integration with additional camera-based devices.
+- Enhanced processing speed and accuracy.
+- Improved user interface and reporting capabilities.
 
-2. Access from other devices:
-```
-http://[YOUR_IP_ADDRESS]:3000
-```
+## 16. License
 
-### Firewall Configuration
+This project is distributed under the MIT License.
 
-**Windows:**
-```bash
-netsh advfirewall firewall add rule name="Currency Detection" dir=in action=allow protocol=TCP localport=3000
-```
+## 17. Acknowledgements
 
-**Linux:**
-```bash
-sudo ufw allow 3000
-```
+We acknowledge the following technologies and tools used in the development of this project:
 
-## 📈 Optimization Tips
-
-### For Better Performance:
-- Reduce reference image count (keep 2-3 best per denomination)
-- Lower feature detection parameters
-- Implement early exit for high confidence matches
-- Use image resizing for large inputs
-
-### For Better Accuracy:
-- Add more reference images with different conditions
-- Improve lighting setup
-- Use higher resolution images
-- Fine-tune confidence thresholds
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md).
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **OpenCV** for computer vision capabilities
-- **FastAPI** for the web framework
-- **Tesseract** for OCR functionality
-- **SIFT/ORB** algorithms for feature detection
-
-## 📞 Support & Contact
-
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/yourusername/currency-detection-system/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/currency-detection-system/discussions)
-- 📧 **Email**: your-email@example.com
-- 📖 **Documentation**: [Wiki](https://github.com/yourusername/currency-detection-system/wiki)
+- **OpenCV:** Computer vision and image processing.
+- **FastAPI:** Backend API development.
+- **Tesseract OCR:** Text extraction and verification.
+- **ORB and SIFT:** Feature detection and matching.
+- **Docker:** Application containerization and deployment.
 
 ---
 
-<div align="center">
-
-**⭐ Star this repository if you found it helpful!**
-
-Made with ❤️ for the open source community
-
-</div>
+**Developed with the aim of making currency identification and authenticity analysis more accessible through AI and computer vision.**
